@@ -1,0 +1,29 @@
+service: workout-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    MONGO_URI: ${env:MONGO_URI}
+    AWS_REGION: ${env:AWS_REGION}
+    S3_BUCKET_NAME: ${env:S3_BUCKET_NAME}
+
+functions:
+  uploadVideo:
+    handler: handler.uploadVideo
+    events:
+      - http:
+          path: /workouts
+          method: post
+          cors: true
+
+  getAllWorkoutPrograms:
+    handler: handler.getAllWorkoutPrograms
+    events:
+      - http:
+          path: /workouts
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
